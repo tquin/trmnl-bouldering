@@ -1,0 +1,7 @@
+# Cargo compilation & binaries
+worker-rs/debug/
+worker-rs/target/
+
+# local worker dev with wrangler
+worker-rs/node_modules/
+worker-rs/.wrangler/

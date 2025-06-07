@@ -15,3 +15,7 @@ curl localhost:8787 \
     -d "{\"id\": \"f40dc9c0cbd9d67d35431dcd0581baac\"}" \
     -H "content-type:application/json"
 ```
+
+## Acknowledgements
+
+Thanks to https://github.com/eiri/climber-count for parsing inspiration.

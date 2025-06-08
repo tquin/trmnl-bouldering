@@ -4,11 +4,7 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 
 #[event(fetch)]
-async fn fetch(req: Request, _env: Env, _ctx: Context) -> Result<Response> {
-    if req.method() != Method::Post {
-        return Response::error("Send a POST request with JSON!", 405);
-    }
-    
+async fn fetch(req: Request, _env: Env, _ctx: Context) -> Result<Response> {    
     let content_type = match get_content_type(&req) {
         Some(content_type) => content_type,
         None => return Response::error("Missing content-type header", 400),
@@ -18,12 +14,18 @@ async fn fetch(req: Request, _env: Env, _ctx: Context) -> Result<Response> {
         return Response::error("Invalid content type", 415);
     }
 
-    let req_json = match get_req_json(req).await {
-        Some(req_json) => req_json,
+    let req_data = match req.method() {
+        Method::Post => handle_post_req(req).await,
+        Method::Get => handle_get_req(req),
+        _ => return Response::error("Send a POST request with JSON!", 405),
+    };
+
+    let req_data = match req_data {
+        Some(req_data) => req_data,
         None => return Response::error("Invalid JSON request or missing fields", 400),
     };
             
-    let html_text = match get_html_text(&req_json.id).await {
+    let html_text = match get_html_text(&req_data.id).await {
         Some(html_data) => html_data,
         None => return Response::error("Failed to fetch RockGymPro data", 500),
     };
@@ -33,7 +35,7 @@ async fn fetch(req: Request, _env: Env, _ctx: Context) -> Result<Response> {
         None => return Response::error("Failed to read RockGymPro data", 500),
     };
 
-    let rgp_data = match deserialize_rgp_data(req_json, &rgp_data_unparsed) {
+    let rgp_data = match deserialize_rgp_data(req_data, &rgp_data_unparsed) {
         Some(rgp_data) => rgp_data,
         None => return Response::error("Failed to parse RockGymPro data", 500),
     };
@@ -62,11 +64,18 @@ struct RequestBody {
     gym_id: Option<String>,
 }
 
-async fn get_req_json(mut req: Request) -> Option<RequestBody> {
+async fn handle_post_req(mut req: Request) -> Option<RequestBody> {
     match req.json::<RequestBody>().await {
-        Ok(req_json) => return Some(req_json),
+        Ok(req_data) => return Some(req_data),
         Err(_) => return None,
     };
+}
+
+fn handle_get_req(req: Request) -> Option<RequestBody> {
+    match req.query::<RequestBody>() {
+        Ok(req_data) => return Some(req_data),
+        Err(_) => return None,
+    }
 }
 
 async fn get_html_text(rgp_id: &str) -> Option<String> {
@@ -115,7 +124,7 @@ struct RGPData {
     count: u32,
 }
 
-fn deserialize_rgp_data(req_json: RequestBody, rgp_data_unparsed: &str) -> Option<RGPData> {
+fn deserialize_rgp_data(req_data: RequestBody, rgp_data_unparsed: &str) -> Option<RGPData> {
     // The HTML response contains JavaScript, not real JSON
     // json5 is more lenient than serde which only accepts strict compliance
     let data: HashMap<String, RGPData> = match json5::from_str(&rgp_data_unparsed) {
@@ -124,7 +133,7 @@ fn deserialize_rgp_data(req_json: RequestBody, rgp_data_unparsed: &str) -> Optio
     };
 
     // If the user specified a gym ID, we use that one
-    if let Some(gym_id) = req_json.gym_id {
+    if let Some(gym_id) = req_data.gym_id {
         if let Some(rgp_data) = data.get(&gym_id) {
             return Some(rgp_data.clone());
         }

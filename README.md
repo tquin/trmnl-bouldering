@@ -2,6 +2,16 @@
 
 A trmnl plugin to show how busy the local bouldering gym is. 
 
+## local trmnl layout setup
+
+```
+docker run \
+    -p 4567:4567 \
+    -v ./:/plugin \
+    -e "id=f40dc9c0cbd9d67d35431dcd0581baac" \
+    trmnl/trmnlp
+```
+
 ## Cloudflare Workers local dev setup
 
 ```

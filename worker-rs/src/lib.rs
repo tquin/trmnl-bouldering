@@ -66,15 +66,15 @@ struct RequestBody {
 
 async fn handle_post_req(mut req: Request) -> Option<RequestBody> {
     match req.json::<RequestBody>().await {
-        Ok(req_data) => return Some(req_data),
-        Err(_) => return None,
-    };
+        Ok(req_data) => Some(req_data),
+        Err(_) => None,
+    }
 }
 
 fn handle_get_req(req: Request) -> Option<RequestBody> {
     match req.query::<RequestBody>() {
-        Ok(req_data) => return Some(req_data),
-        Err(_) => return None,
+        Ok(req_data) => Some(req_data),
+        Err(_) => None,
     }
 }
 

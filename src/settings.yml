@@ -1,0 +1,31 @@
+---
+# required:
+name: Bouldering Gym Capacity
+strategy: polling         # polling | webhook | static
+refresh_interval: 15      # minutes; 15 | 60 | 360 | 720 | 1440
+
+# polling strategy only:
+polling_url: 	https://trmnl-bouldering-worker.hello-a31.workers.dev?id={{ id }}&gym_id={{ gym_id }}
+polling_headers: '&content-type=application/json'
+polling_verb: GET               # GET | POST
+
+# static strategy only:
+# static_data: '{"foo": "bar"}'   # JSON string
+
+# generic options:
+no_screen_padding: 'no'         # 'no' | 'yes' (quotes are necessary!)
+dark_mode: 'no'                 # 'no' | 'yes' (quotes are necessary!)
+
+# custom plugin form fields (optional, see docs):
+custom_fields:
+- keyname: id
+  name: RockGymPro ID
+  field_type: string
+  placeholder: f40dc9c0cbd9d67d35431dcd0581baac
+
+- keyname: gym_id
+  name: Gym (facility) ID
+  field_type: string
+  optional: true
+  default: ""
+  placeholder: AAA

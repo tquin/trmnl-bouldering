@@ -29,3 +29,9 @@ custom_fields:
   optional: true
   default: ""
   placeholder: AAA
+
+- keyname: author_bio
+  name: About This Plugin
+  field_type: author_bio
+  description: How busy is the local climbing gym?
+  github_url: https://github.com/tquin/trmnl-bouldering

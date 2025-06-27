@@ -3,10 +3,11 @@
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/modules/pattern-fill.js"></script>
 
-<div class="view view--full">
+<div class="view">
     <div class="w-full b-h-gray-5"></div>
         <div class="grid grid--cols-2">
             <div id="main_gauge" class="w--auto mt--5"></div>
+            <span style="display: flex; align-items: center; text-align:center;" class="value value--large value--tnums">Current Climbers: {{ count | default 0 }}</span>
         <div>
   </div>
 </div>
@@ -72,6 +73,7 @@
           ...opts.labels,
           style: {
             fontSize: "16px",
+
           },
         },
         plotBands: [
@@ -110,6 +112,7 @@
           data: [count],
           dataLabels: {
             borderWidth: 0,
+            y: opts.series.position || 0,
             style: {
               fontSize: opts.series.fontSize,
               fontWeight: opts.series.fontWeight || "400",
@@ -132,13 +135,14 @@
     },
     // center text
     series: {
-      fontSize: "3em",
+      fontSize: "0em",
       fontWeight: "500",
+      position: -15,
     },
     yAxis: {
-      title: "Current<br>Climbers",
+      // title: "Current<br>Climbers",
       fontSize: "18px",
-      tickPixelInterval: 30,
+      tickPixelInterval: 40,
     },
   });
 </script>

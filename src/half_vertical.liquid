@@ -3,12 +3,10 @@
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/modules/pattern-fill.js"></script>
 
-<div class="view view--full">
+<div class="view">
     <div class="w-full b-h-gray-5"></div>
-        <div class="grid grid--cols-2">
-            <row>
-                <div id="main_gauge" class="w--auto mt--5"></div>
-            </row>
+        <div class="grid grid--cols-1">
+            <div id="main_gauge" class="w--auto mt--5"></div>
         <div>
   </div>
 </div>
@@ -112,6 +110,7 @@
           data: [count],
           dataLabels: {
             borderWidth: 0,
+            y: opts.series.position || 0,
             style: {
               fontSize: opts.series.fontSize,
               fontWeight: opts.series.fontWeight || "400",
@@ -127,15 +126,16 @@
   var capacity = {{ capacity | default 0 }};
 
   createGauge("main_gauge", count, capacity, {
-    height: "56%",
+    height: "100%",
     // tick marks
     labels: {
       distance: 15,
     },
     // center text
     series: {
-      fontSize: "3em",
+      fontSize: "5em",
       fontWeight: "400",
+      position: -20,
     },
     yAxis: {
       title: "Current<br>Climbers",

@@ -2,6 +2,28 @@
 
 A trmnl plugin to show how busy the local bouldering gym is. 
 
+# Installation
+
+[Create a new Private Plugin](https://usetrmnl.com/plugin_settings/new?keyname=private_plugin):
+- Strategy: `polling`
+- Polling URL(s): `https://trmnl-bouldering-worker.hello-a31.workers.dev?id={{ id }}&gym_id={{ gym_id }}`
+- Polling Verb: `GET`
+- Polling Headers: `&content-type=application/json`
+- Form Fields:
+```
+- keyname: id
+  name: RockGymPro ID
+  field_type: string
+  placeholder: {{ Your local gym's RGP ID }}
+
+- keyname: gym_id
+  name: Gym (facility) ID
+  field_type: string
+  optional: true
+  default: ""
+  placeholder: {{ Your local gym's RGP Gym ID - you can probably leave this blank }}
+```
+
 ## local trmnl layout setup
 
 ```
@@ -12,7 +34,7 @@ docker run \
     trmnl/trmnlp
 ```
 
-## Cloudflare Workers local dev setup
+## local Cloudflare Workers dev setup
 
 ```
 cd ./trmnl-bouldering-worker

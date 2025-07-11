@@ -33,5 +33,7 @@ custom_fields:
 - keyname: author_bio
   name: About This Plugin
   field_type: author_bio
-  description: How busy is the local climbing gym?
+  description: >-
+    How busy is the local climbing gym?
+    If your gym's website includes an `iframe` embedded chart, you can get the RockGymPro ID by using the browser DevTools and finding it in the URL: `https://portal.rockgympro.com/portal/public/{RockGymPro ID}/occupancy`. You can probably leave the Gym ID blank.
   github_url: https://github.com/tquin/trmnl-bouldering

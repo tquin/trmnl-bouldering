@@ -4,6 +4,12 @@ A trmnl plugin to show how busy the local bouldering gym is.
 
 # Installation
 
+## Dashboard UI
+
+It's available as a Community Recipe for installation [on your TRMNL here][link_plugin].
+
+## Manually
+
 [Create a new Private Plugin](https://usetrmnl.com/plugin_settings/new?keyname=private_plugin):
 - Strategy: `polling`
 - Polling URL(s): `https://trmnl-bouldering-worker.hello-a31.workers.dev?id={{ id }}&gym_id={{ gym_id }}`
@@ -57,3 +63,5 @@ curl localhost:8787 \
 ## Acknowledgements
 
 Thanks to https://github.com/eiri/climber-count for parsing inspiration.
+
+[link_plugin]: https://usetrmnl.com/recipes/91950
